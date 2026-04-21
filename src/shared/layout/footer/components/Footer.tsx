@@ -120,7 +120,7 @@ export function Footer() {
 
       <div className="my-6 flex flex-wrap justify-between gap-4">
         <p className="mb-4 text-base font-normal text-[#546179] sm:mb-0">
-          2016-2024 © Emprise
+          2016-2026 © Emprise
         </p>
 
         <Image
