@@ -5,14 +5,67 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  // Override default ignores of eslint-config-next.
   globalIgnores([
-    // Default ignores of eslint-config-next:
     ".next/**",
     "out/**",
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    files: ["**/*.ts", "**/*.tsx"],
+    languageOptions: {
+      parserOptions: {
+        project: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+    rules: {
+      // Disallows explicit `any` type annotations
+      "@typescript-eslint/no-explicit-any": "error",
+
+      // Disallows assigning a value of type any to a variable
+      "@typescript-eslint/no-unsafe-assignment": "error",
+
+      // Disallows calling something typed as any
+      "@typescript-eslint/no-unsafe-call": "error",
+
+      // Disallows accessing properties on a value typed as any
+      "@typescript-eslint/no-unsafe-member-access": "error",
+
+      // Disallows returning any from a function
+      "@typescript-eslint/no-unsafe-return": "error",
+
+      // Disallows passing any as a function argument
+      "@typescript-eslint/no-unsafe-argument": "error",
+
+      // Unused variables and arguments are errors; prefix with _ to opt out intentionally
+      "@typescript-eslint/no-unused-vars": ["error", {
+        argsIgnorePattern: "^_",
+        varsIgnorePattern: "^_",
+      }],
+
+      // Enforces `import type` for type-only imports to avoid unnecessary runtime imports
+      "@typescript-eslint/consistent-type-imports": ["error", {
+        prefer: "type-imports",
+        fixStyle: "inline-type-imports",
+      }],
+
+      // Disallows floating Promises (no await or .catch) — prevents swallowed async errors
+      "@typescript-eslint/no-floating-promises": "error",
+
+      // Disallows awaiting a value that is not a Promise
+      "@typescript-eslint/await-thenable": "error",
+
+      // Prefers ?? over || — || also triggers on "", 0, false; ?? only on null/undefined
+      "@typescript-eslint/prefer-nullish-coalescing": "warn",
+
+      // Prefers optional chaining `a?.b?.c` over `a && a.b && a.b.c`
+      "@typescript-eslint/prefer-optional-chain": "warn",
+
+      // Warns when a condition is always truthy or always falsy
+      "@typescript-eslint/no-unnecessary-condition": "warn",
+    },
+  },
 ]);
 
 export default eslintConfig;
