@@ -1,47 +1,25 @@
 import { useFirestore } from "@/shared/hooks/useFirestore";
-import { useState, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 
 interface CatalogItem {
   name: string;
 }
 
 export const useSearchSuggestions = () => {
-  const [compoundSearchSuggestions, setCompoundSearchSuggestions] = useState<
-    string[]
-  >([]);
-
-  const { data: activitiesCatalog, loading: loadingActivities } = useFirestore(
-    "activities_catalog",
-  ) as {
-    data: CatalogItem[];
-    loading: boolean;
-  };
+  const { data: activitiesCatalog, loading: loadingActivities } =
+    useFirestore<CatalogItem>("activities_catalog");
   const { data: destinationsCatalog, loading: loadingDestinations } =
-    useFirestore("destinations_catalog") as {
-      data: CatalogItem[];
-      loading: boolean;
-    };
+    useFirestore<CatalogItem>("destinations_catalog");
 
   const isLoading = loadingActivities || loadingDestinations;
 
-  useEffect(() => {
-    if (!loadingActivities && !loadingDestinations) {
-      const allNames = [
-        ...activitiesCatalog
-          .map((item) => item.name?.toLowerCase())
-          .filter(Boolean),
-        ...destinationsCatalog
-          .map((item) => item.name?.toLowerCase())
-          .filter(Boolean),
-      ];
-      setCompoundSearchSuggestions(allNames);
-    }
-  }, [
-    activitiesCatalog,
-    destinationsCatalog,
-    loadingActivities,
-    loadingDestinations,
-  ]);
+  const compoundSearchSuggestions = useMemo(() => {
+    if (isLoading) return [];
+    return [
+      ...activitiesCatalog.map((item) => item.name.toLowerCase()),
+      ...destinationsCatalog.map((item) => item.name.toLowerCase()),
+    ];
+  }, [activitiesCatalog, destinationsCatalog, isLoading]);
 
   const getFilteredSuggestions = useMemo(() => {
     return (searchValue: string) =>

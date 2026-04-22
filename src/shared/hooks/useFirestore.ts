@@ -1,19 +1,19 @@
 import { fetchFirestoreData } from "@/services/firestoreService";
 import { useEffect, useState } from "react";
 
-export const useFirestore = (collectionName: string) => {
-  const [data, setData] = useState<object[]>([]);
+export const useFirestore = <T extends object>(collectionName: string) => {
+  const [data, setData] = useState<T[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
-      const result = await fetchFirestoreData(collectionName);
+      const result = await fetchFirestoreData<T>(collectionName);
       setData(result);
       setLoading(false);
     };
 
-    loadData();
+    void loadData();
   }, [collectionName]);
 
   return { data, loading };

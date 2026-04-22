@@ -1,5 +1,5 @@
-import axios, { AxiosError } from "axios";
-import { useState, useEffect, useCallback } from "react";
+import axios, { type AxiosError } from "axios";
+import { useState, useEffect } from "react";
 
 interface FetchDataResult<T> {
   data: T | null;
@@ -12,22 +12,26 @@ export const useFetchData = <T = unknown>(url: string): FetchDataResult<T> => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchData = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const res = await axios.get<T>(url);
-      setData(res.data);
-    } catch (error) {
-      const axiosError = error as AxiosError;
-      setError(axiosError.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [url]);
-
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    let cancelled = false;
+
+    async function fetchData() {
+      setIsLoading(true);
+      try {
+        const res = await axios.get<T>(url);
+        if (!cancelled) setData(res.data);
+      } catch (err) {
+        if (!cancelled) setError((err as AxiosError).message);
+      } finally {
+        if (!cancelled) setIsLoading(false);
+      }
+    }
+
+    void fetchData();
+    return () => {
+      cancelled = true;
+    };
+  }, [url]);
 
   return { data, isLoading, error };
 };

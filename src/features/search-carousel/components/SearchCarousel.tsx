@@ -26,6 +26,8 @@ export function SearchCarousel() {
   const apiKey = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
   const currentPlace = places[currentIndex];
 
+  if (!currentPlace) return null;
+
   const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${currentPlace.title}&aqi=no`;
   const { data, isLoading } = useFetchData<WeatherData>(url);
 

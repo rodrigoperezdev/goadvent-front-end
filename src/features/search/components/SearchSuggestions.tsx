@@ -39,6 +39,7 @@ export function SearchSuggestions({ searchValue }: SearchSuggestionsProps) {
           <li
             key={suggestion}
             role="option"
+            aria-selected={false}
             className="cursor-pointer p-4 capitalize transition-colors hover:bg-gray-100 first:rounded-t-2xl last:rounded-b-2xl"
           >
             {highlightMatch(suggestion)}
