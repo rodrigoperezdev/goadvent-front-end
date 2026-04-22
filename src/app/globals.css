@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+html {
+  font-size: 16px;
+  padding-inline: 5rem;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+  margin: 0;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+@media screen and (max-width: 1500px) {
+  body {
+    padding-inline: 6rem;
+  }
+  h1 {
+    font-size: 7rem;
+  }
+}
+@media screen and (max-width: 1200px) {
+  body {
+    padding-inline: 4rem;
+  }
+  h1 {
+    font-size: 6rem;
+  }
+}
+@media screen and (max-width: 992px) {
+  h1 {
+    font-size: 5rem;
+  }
+}
+@media screen and (max-width: 768px) {
+  h1 {
+    font-size: 4rem;
+  }
+}
+@media screen and (max-width: 576px) {
+  body {
+    padding-inline: 1.5rem;
+  }
+  h1 {
+    font-size: 3rem;
+  }
+}
+li {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+section {
+  margin-top: 8.5rem;
+}
+
+.font-underline {
+  text-decoration: underline;
+}
+
+.font-bold {
+  font-weight: 600;
+}
+
+.font-capitalize {
+  text-transform: capitalize;
+}
+
+/* Loader Styles */
+
+.loader {
+  width: 15px;
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  animation: loader-pulse 1s infinite linear alternate;
+}
+
+@keyframes loader-pulse {
+  0% {
+    box-shadow:
+      20px 0 #fff,
+      -20px 0 rgba(255, 255, 255, 0.133);
+    background: #fff;
+  }
+  33% {
+    box-shadow:
+      20px 0 #fff,
+      -20px 0 rgba(255, 255, 255, 0.133);
+    background: rgba(255, 255, 255, 0.133);
+  }
+  66% {
+    box-shadow:
+      20px 0 rgba(255, 255, 255, 0.133),
+      -20px 0 #fff;
+    background: rgba(255, 255, 255, 0.133);
+  }
+  100% {
+    box-shadow:
+      20px 0 rgba(255, 255, 255, 0.133),
+      -20px 0 #fff;
+    background: #fff;
+  }
+}

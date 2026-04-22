@@ -1,0 +1,36 @@
+import type { Metadata } from "next";
+import { Poppins } from "next/font/google";
+import "./globals.css";
+import { Header } from "@/shared/layout/header/Header";
+import { Footer } from "@/shared/layout/footer/components/Footer";
+import { Sidebar } from "@/shared/layout/sidebar/components/Sidebar";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-poppins",
+});
+
+export const metadata: Metadata = {
+  title: "GoAdvent",
+  description:
+    "A project by Luis Rodrigo Pérez built with Next.js, Tailwind CSS and TypeScript.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" className={`${poppins.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col">
+        <Header />
+        <main>{children}</main>
+        <Sidebar />
+        <Footer />
+      </body>
+    </html>
+  );
+}
